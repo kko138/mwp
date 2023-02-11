@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Stonks!</title>
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <h1>Should I Buy This Stock?</h1>
+            </div>
+            
+            <div class="row">
+                <div class="col-sm-12">
+                    <form id="form">
+                        <label for="ticker">Ticker</label><br>
+                        <input type="text" id="ticker" name="ticker"><br>
+                        <input type="submit" value="Submit" id='submit'>
+                    </form> 
+                </div>
+            </div>
+            <div id="result" class="row mt-5">
+                <div class="col-4">
+                    <span>
+                        Current Price: $<span id='price'></span>
+                    </span>
+                </div>
+                <div class="col-4">
+                    <span>
+                        Target Median: $<span id='median'></span>
+                    </span>
+                </div>
+                <div class="col-4">
+                    <span>
+                        Buy Recommendation: <span id='recommendation'></span>
+                    </span>
+                </div>
+            </div>
+            <div id="error" class="alert alert-danger mt-5" role="alert">
+            </div>
+        </div>
+    </body>
+</html>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script>
+    hideResultDivs();
+    $( "#form" ).submit(function( event ) {
+        event.preventDefault();
+        hideResultDivs();
+        $.post('/ticker', { ticker: $('#ticker').val()}, 
+        function(result){
+            if (result.status) {
+                $("#price").html(result.currentPrice.fmt);
+                $("#median").html(result.targetMedianPrice.fmt);  
+                $("#recommendation").html(result.recommendationKey); 
+                $('#result').show(); 
+            } else {
+                $('#error').html("Error. No information found on ticker: " + $('#ticker').val().toUpperCase());
+                $('#error').show(); 
+            }
+        });
+    });
+
+    function hideResultDivs() {
+        $('#result').hide();
+        $('#error').hide(); 
+    }
+</script>
+
+<style>
+    input{
+        text-transform:uppercase;
+    }
+</style>
