@@ -6,3 +6,4 @@ The motivation behind this project is my enjoyment of the stock market. I could 
 For now - the purpose of this project is to receive a ticker from the user and generate analyst's median target price and a recommendation. Source for the API is yahoo finance.
 
 To deploy: clone and run `docker compose up`
+Frontend is accessible from `https://localhost`
