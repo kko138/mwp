@@ -15,8 +15,8 @@
                 <div class="col-sm-12">
                     <form id="form">
                         <label for="ticker">Ticker</label><br>
-                        <input type="text" id="ticker" name="ticker"><br>
-                        <input type="submit" value="Submit" id='submit'>
+                        <input autocomplete="off" type="text" id="ticker" name="ticker"><br>
+                        <input type="submit" value="Submit" id='submit' disabled>
                     </form> 
                 </div>
             </div>
@@ -61,6 +61,14 @@
                 $('#error').show(); 
             }
         });
+    });
+
+    $( "#ticker" ).on('keyup', function() {
+        if ($('#ticker').val()) {
+            $("#submit").prop("disabled",false);
+        } else {
+            $("#submit").prop("disabled",true);
+        }
     });
 
     function hideResultDivs() {
